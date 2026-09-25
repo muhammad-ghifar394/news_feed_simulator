@@ -3,43 +3,73 @@ package com.example.newsfeedsimulator.repository
 import com.example.newsfeedsimulator.data.News
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.catch
 
 class NewsRepository {
 
     private val newsList = listOf(
         News(
             id = 1,
-            title = "AI Mengubah Dunia Pendidikan",
+            title = "Smartphone Baru Hadir dengan Teknologi AI",
             category = "Technology",
-            summary = "Perkembangan AI semakin banyak digunakan dalam pendidikan."
+            summary = "Perangkat terbaru menghadirkan berbagai fitur AI untuk membantu aktivitas pengguna."
         ),
         News(
             id = 2,
-            title = "Timnas Indonesia Menang",
+            title = "Indonesia Raih Kemenangan di Pertandingan Internasional",
             category = "Sports",
-            summary = "Timnas Indonesia meraih kemenangan dalam pertandingan."
+            summary = "Tim Indonesia berhasil meraih hasil positif dalam pertandingan internasional."
         ),
         News(
             id = 3,
-            title = "Perkembangan Teknologi Terbaru",
-            category = "Technology",
-            summary = "Teknologi baru terus berkembang dengan cepat."
+            title = "Tips Menjaga Pola Tidur Tetap Sehat",
+            category = "Health",
+            summary = "Pola tidur yang cukup dan teratur dapat membantu menjaga kondisi tubuh."
         ),
         News(
             id = 4,
-            title = "Tips Menjaga Kesehatan",
-            category = "Health",
-            summary = "Menjaga pola hidup sehat penting untuk kesehatan."
+            title = "Harga Komoditas Mulai Mengalami Perubahan",
+            category = "Economy",
+            summary = "Perubahan harga komoditas menjadi perhatian pelaku usaha dan masyarakat."
         ),
         News(
             id = 5,
-            title = "Berita Ekonomi Hari Ini",
+            title = "Platform Pembelajaran Digital Semakin Populer",
+            category = "Education",
+            summary = "Penggunaan platform digital membantu mahasiswa mengakses materi pembelajaran dengan lebih mudah."
+        ),
+        News(
+            id = 6,
+            title = "Laptop Generasi Terbaru Resmi Diperkenalkan",
+            category = "Technology",
+            summary = "Laptop terbaru menawarkan peningkatan performa dan efisiensi daya."
+        ),
+        News(
+            id = 7,
+            title = "Atlet Muda Indonesia Raih Prestasi Baru",
+            category = "Sports",
+            summary = "Seorang atlet muda Indonesia berhasil mencatatkan prestasi dalam kompetisi nasional."
+        ),
+        News(
+            id = 8,
+            title = "Olahraga Ringan yang Bisa Dilakukan di Rumah",
+            category = "Health",
+            summary = "Beberapa olahraga sederhana dapat dilakukan di rumah untuk menjaga kebugaran."
+        ),
+        News(
+            id = 9,
+            title = "UMKM Mulai Memanfaatkan Pembayaran Digital",
             category = "Economy",
-            summary = "Perkembangan ekonomi menjadi perhatian masyarakat."
+            summary = "Semakin banyak pelaku UMKM menggunakan pembayaran digital untuk mempermudah transaksi."
+        ),
+        News(
+            id = 10,
+            title = "Mahasiswa Mulai Memanfaatkan AI untuk Belajar",
+            category = "Education",
+            summary = "Teknologi AI mulai digunakan mahasiswa sebagai salah satu alat bantu dalam proses belajar."
         )
     )
 
