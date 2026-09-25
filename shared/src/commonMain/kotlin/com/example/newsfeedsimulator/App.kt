@@ -1,9 +1,9 @@
 package com.example.newsfeedsimulator
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,26 +12,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.newsfeedsimulator.repository.NewsRepository
 import com.example.newsfeedsimulator.viewmodel.NewsViewModel
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
@@ -45,9 +43,10 @@ fun App() {
         NewsViewModel(repository)
     }
 
-    val news by viewModel.news.collectAsStateWithLifecycle()
-    val selectedCategory by viewModel.selectedCategory.collectAsStateWithLifecycle()
-    val readNewsCount by viewModel.readNewsCount.collectAsStateWithLifecycle()
+    val news by viewModel.news.collectAsState()
+    val selectedCategory by viewModel.selectedCategory.collectAsState()
+    val readNewsCount by viewModel.readNewsCount.collectAsState()
+    val newsDetails by viewModel.newsDetails.collectAsState()
 
     val categories = listOf(
         "All",
@@ -111,6 +110,7 @@ fun App() {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+
                     categories.forEach { category ->
 
                         FilterChip(
@@ -126,7 +126,45 @@ fun App() {
                 }
 
                 Spacer(
-                    modifier = Modifier.height(16.dp)
+                    modifier = Modifier.height(12.dp)
+                )
+
+                Button(
+                    onClick = {
+                        val newsIds = filteredNews
+                            .take(3)
+                            .map { it.id }
+
+                        viewModel.fetchNewsDetails(newsIds)
+                    },
+                    enabled = filteredNews.isNotEmpty()
+                ) {
+                    Text("Fetch News Details")
+                }
+
+                if (newsDetails.isNotEmpty()) {
+
+                    Spacer(
+                        modifier = Modifier.height(12.dp)
+                    )
+
+                    Text(
+                        text = "News Details",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    newsDetails.forEach { detail ->
+
+                        Text(
+                            text = detail,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
+                }
+
+                Spacer(
+                    modifier = Modifier.height(12.dp)
                 )
 
                 LazyColumn(
@@ -205,10 +243,4 @@ fun NewsCard(
             }
         }
     }
-}
-
-@Composable
-@Preview
-fun AppPreview() {
-    App()
 }
